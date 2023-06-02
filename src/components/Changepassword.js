@@ -1,87 +1,81 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import { useState, useNavigate } from 'react';
 
-function Changepassword() {
+export default function Changepassword() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    const navigate  = useNavigate();
+  
+    event.preventDefault();
 
-    // Perform validation
+    // Perform validation on the form data
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setError('Please fill out all fields');
+      return;
+    }
     if (newPassword !== confirmPassword) {
-      setErrorMessage('New password and confirm password do not match.');
+      setError('New password and confirm password do not match');
       return;
     }
 
-    try {
-      // Make API request to change the password
-      const response = await axios.post('https://api.store.ellcart.com/users/change-password', {
-        old_password: oldPassword,
-        new_password: newPassword,
-        new_password_confirmation: confirmPassword,
+   fetch('https://api.store.ellcart.com/users/change-password', {
+      method: 'POST',
+      headers: 
+      { 'Content-Type': 'application/json' },
+      'Authorization': 'Bearer <eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zdG9yZS5lbGxjYXJ0LmNvbS91c2Vycy9sb2dpbiIsImlhdCI6MTY4NTYyNzU3MCwibmJmIjoxNjg1NjI3NTcwLCJqdGkiOiJLMHlPWThDUmNNSzVIdlgzIiwic3ViIjoiMTYzIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ozYKRbgRkc9Rdp_yOyBRQ2S7dnoHciIOl0PMCQr0vy8>',
+      body: JSON.stringify({ oldPassword, newPassword })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to change password');
+        }
+        setError('');
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        alert('Password changed successfully');
+       
+      })
+      .catch(error => {
+        setError(error.message);
       });
-
-      // Handle the response
-      setSuccessMessage('Password changed successfully!');
-      setOldPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-    } catch (error) {
-      // Handle error response
-      setErrorMessage('Failed to change password. Please try again.');
-      console.log(error);
-    }
   };
-
+  
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="old_password">Current Password</label>
-          <input
-            type="password"
-            name="old_password"
-            className="form-control"
-            id="old_password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            id="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password_confirmation">New Password</label>
-          <input
-            type="password"
-            name="password_confirmation"
-            className="form-control"
-            id="password_confirmation"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Change Password
-        </button>
-      </form>
-
-      {errorMessage && <p className="text-danger">{errorMessage}</p>}
-      {successMessage && <p className="text-success">{successMessage}</p>}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="old-password">Old Password:</label>
+        <input
+          type="password"
+          id="old-password"
+          value={oldPassword}
+          onChange={(event) => setOldPassword(event.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="new-password">New Password:</label>
+        <input
+          type="password"
+          id="new-password"
+          value={newPassword}
+          onChange={(event) => setNewPassword(event.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="confirm-password">Confirm Password:</label>
+        <input
+          type="password"
+          id="confirm-password"
+          value={confirmPassword}
+          onChange={(event) => setConfirmPassword(event.target.value)}
+        />
+      </div>
+      {error && <div>{error}</div>}
+      <button type="submit">Change Password</button>
+    </form>
   );
 }
-
-export default Changepassword;

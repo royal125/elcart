@@ -340,3 +340,117 @@ main{
 form button{
     margin-left: 1.7rem;
 }
+
+
+/* cookie////  */
+.cookie-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+    padding: 18px;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  
+  .cookie-image {
+    height: 40px;
+    margin-right: 16px;
+  }
+  
+  .cookie-message {
+    font-size: 16px;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .cookie-accept-button {
+    background-color: #008080;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .cookie-accept-button:hover {
+    background-color: #006666;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  

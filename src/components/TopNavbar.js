@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 function TopNavbar() {
 
 
@@ -26,7 +27,7 @@ function TopNavbar() {
                                 <ul className="dropdown-menu">
                         <Link className="dropdown-item" to="/frontend/Changepassword">Change Password</Link>
                         <Link className="dropdown-item" to="/frontend">Logout</Link>
-                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                    <Link className="dropdown-item" to='/frontend/adduser'>Add new user</Link>
                                 </ul>
                             </li>
                          </ul>                      

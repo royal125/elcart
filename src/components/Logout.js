@@ -1,27 +1,32 @@
 import React from 'react';
-import axios from 'axios';
 
-function Logout({ history }) {
+const Logout = () => {
   const handleLogout = () => {
-    localStorage.clear(); // Clear local storage
+    const url = 'https://api.store.ellcart.com/users/logout';
+    const tokenKey = 'ElcartUserToken';
+    const tokenValue = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5zdG9yZS5lbGxjYXJ0LmNvbS91c2Vycy9sb2dpbiIsImlhdCI6MTY4NTM0NTkzNywibmJmIjoxNjg1MzQ1OTM3LCJqdGkiOiJwYUNmV3hpZnhYbllleWxWIiwic3ViIjoiMTYzIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Gjicw039nxgTdDZEBIja0sLIEvXph9dGCDhT8-vQfNA';
 
-    // Clear cookies
-    document.cookie = 'cookieName1=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'cookieName2=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
-    axios.post('http://api.ellcart.com/users/logout')
-      .then(response => {
-        // Handle successful logout
-        console.log('Logout successful', response);
-        history.push('/frontend'); // Navigate to the specified page after successful logout
-      })
-      .catch(error => {
-        // Handle error
-        console.error('Failed to logout', error);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${tokenKey} ${tokenValue}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // The user has been logged out successfully.
+          localStorage.removeItem(tokenKey);
+          window.location.href = '/frontend';
+        } else {
+          // There was an error logging out the user.
+          console.log(data.error);
+        }
       });
   };
 
   return <button onClick={handleLogout}>Logout</button>;
-}
+};
 
 export default Logout;

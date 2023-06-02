@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import logo from '../images/logo.jpg';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 export default function UserLogin() {
@@ -59,7 +59,7 @@ useEffect(() => {
                  <img src={logo} className="img-fluid" />
                 
                  <h2>Login</h2>
-                 <p>Don't have an account? <a href="{{route('register')}}">Sign up</a></p>
+                 <p>Don't have an account? <Link to='/signup'>Sign up</Link></p>
               </div>
               <div className="panel-body">
 
@@ -78,11 +78,11 @@ useEffect(() => {
                           </div>
                   </div>
                   <div className="col-md-5 col-6">
-                      <a href="">Forgot Password?</a>
+                      <Link to='forget'>Forgot Password?</Link>
                   </div>
-              </div>
-
-                  <input type="submit" />
+              </div><br/><br/><br/>
+<div><input type="submit" /></div>
+                  
            </form>
           </div>          
              </div>
